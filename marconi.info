@@ -1,1 +1,4 @@
 name = Marconi
+description = "Use Marconi as an alternative Drupal Queue backend."
+core = 7.x
+dependencies[] = ctools

@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Contains basic functions for Marconi
+ */
+
+/**
+ * Ensure that php-opencloud library is loaded.
+ *
+ * @return bool
+ */
+function marconi_loaded() {
+  $loaded = &drupal_static(__FUNCTION__);
+  if (!isset($loaded)) {
+    if (!class_exists('\OpenCloud\OpenStack' && module_exists('libraries'))) {
+      $library = libraries_load('php-opencloud');
+      $loaded = $library['installed'];
+    }
+
+    if (!class_exists('\OpenCloud\OpenStack' && module_exists('composer_manager'))) {
+      require_once DRUPAL_ROOT . '/sites/all/vendor/autoload.php';
+      $loaded = class_exists('\OpenCloud\OpenStack');
+    }
+  }
+
+  return $loaded;
+}
+
+/**
+ * Get queue parameters.
+ *
+ * @param string name
+ *   The name of the queue.
+ *
+ * @return array
+ *   An array of parameters for this queue.
+ */
+function marconi_get_queue_options($name) {
+  $options = &drupal_static(__FUNCTION__);
+  if (!isset($options[$name])) {
+    $options[$name] = variable_get('marconi_queue' . $name, array());
+
+    $defaults = variable_get('marconi_default_queue', array());
+    $options[$name] += $defaults;
+  }
+
+  // We must specify a client ID. Here is a sane default.
+  if (!isset($options[$name]['client_id'] || empty($options[$name]['client_id']))) {
+    $options[$name]['client_id'] = ctools_cleanstring(variable_get('site_name', 'default'), array(
+      'separator' => '',
+    );
+  }
+
+  return $options[$name];
+}
