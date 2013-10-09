@@ -25,19 +25,29 @@ class MarconiQueue implements DrupalQueueInterface {
   /**
    * Create a queue.
    *
-   * @TODO Determine if this is possible remotely, and if not submit a pull
-   * request to php-opencloud project implementing this functionality.
+   * @param string $name
+   *   The name of the queue to create.
    */
-  public function createQueue() {
+  public function createQueue($name) {
+    $this->queue = $this->service->getQueue();
+    $this->queue->create(
+      array(
+        'name' => $name,
+        'metadata' => $this->params['metadata'],
+      )
+    );
   }
 
   /**
    * Delete a queue.
    *
-   * @TODO Determine if this is possible remotely, and if not submit a pull
-   * request to php-opencloud project implementing this functionality.
+   * @param string $name
+   *   The name of the queue to delete.
    */
-  public function deleteQueue() {
+  public function deleteQueue($name) {
+    $this->queue = $this->service->getQueue();
+    $this->queue->setName($name);
+    $this->queue->delete();
   }
 
   /**
@@ -49,13 +59,58 @@ class MarconiQueue implements DrupalQueueInterface {
    * @return bool
    */
   public function createItem($data) {
+    $message = $this->queue->getMessage();
+    $message->setBody(json_encode($data));
+    $message->setTtl($this->params['ttl']);
+    return $message->create();
+  }
 
+  /**
+   * Claim an item in the queue for processing.
+   *
+   * @param int $ttl
+   *   How long the processing is expected to take, in seconds. Value must be
+   *   between 60 and 43200 seconds. The default is 12 hours.
+   * @param int $grace
+   *   The message grace period. The server extends the lifetime of claimed
+   *   messages at least as long as the claim itself, plus a specified grace
+   *   period to deal with crashed workers. Value must be between 60 and 43200
+   *   seconds. Default is 12 hours.
+   */
+  public function claimItem($ttl = 43200, $grace = 43200) {
+    $options = array();
+    $options['ttl'] = $ttl;
+    $options['grace'] = $grace;
+
+    // Drupal claims items one at a time.
+    $options['limit'] = 1;
+
+    $message = $this->queue->claimMessages($options);
+
+    $item->item_id = $message->getId();
+    $item->data = json_decode($message->getBody());
+
+    if (!empty($item->item_id)) {
+      return $item;
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Deletes an item from the queue.
+   *
+   * @param Message $item
+   *   The item to be deleted.
+   */
+  public function deleteItem($item) {
+    $this->queue->deleteMessages(array($item->item_id));
   }
 
   /**
    * Connect to a Marconi queue.
    */
-  private function connect() {
+  protected function connect() {
     $params = $this->params;
     $class = 'OpenCloud\\' . $params['provider'];
     if (!class_exists($class)) {
