@@ -6,6 +6,25 @@
  */
 
 /**
+ * Implements hook_libraries_info().
+ */
+function marconi_libraries_info() {
+  $libraries['php-opencloud'] = array(
+    'name' => 'PHP-OpenCloud',
+    'vendor url' => 'https://github.com/rackspace/php-opencloud',
+    'download url' => 'https://github.com/rackspace/php-opencloud/archive/v1.7.0.tar.gz',
+    'version' => '1.7.0',
+    'files' => array(
+      'php' => array(
+        'lib/php-opencloud.php',
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
  * Ensure that php-opencloud library is loaded.
  *
  * @return bool
@@ -13,11 +32,13 @@
 function marconi_loaded() {
   $loaded = &drupal_static(__FUNCTION__);
   if (!isset($loaded)) {
+    // Try loading via Libraries API
     if (!class_exists('\OpenCloud\OpenStack' && module_exists('libraries'))) {
       $library = libraries_load('php-opencloud');
       $loaded = $library['installed'];
     }
 
+    // Try loading via Composer Manager
     if (!class_exists('\OpenCloud\OpenStack' && module_exists('composer_manager'))) {
       require_once DRUPAL_ROOT . '/sites/all/vendor/autoload.php';
       $loaded = class_exists('\OpenCloud\OpenStack');
