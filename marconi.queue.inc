@@ -27,12 +27,10 @@ class MarconiQueue implements DrupalQueueInterface {
    */
   public function createQueue() {
     $this->queue = $this->service->getQueue();
-    $this->queue->create(
-      array(
-        'name' => $this->name,
-        'metadata' => $this->params['metadata'],
-      )
-    );
+    $this->queue->create($this->name);
+    if (!empty($this->params['metadata'])) {
+      $this->queue->setMetadata($this->params['metadata']);
+    }
   }
 
   /**
@@ -53,10 +51,11 @@ class MarconiQueue implements DrupalQueueInterface {
    * @return bool
    */
   public function createItem($data) {
-    $message = $this->queue->getMessage();
-    $message->setBody(json_encode($data));
-    $message->setTtl($this->params['ttl']);
-    return $message->create();
+    $ttl = isset($this->params['ttl']) ? $this->params['ttl'] : 3600;
+    return $this->queue->createMessage(array(
+      'body' => json_encode($data),
+      'ttl' => $ttl,
+    ));
   }
 
   /**
@@ -75,7 +74,7 @@ class MarconiQueue implements DrupalQueueInterface {
    */
   public function numberOfItems() {
     $stats = $this->queue->getStats();
-    return $stats['total'];
+    return $stats->total;
   }
 
   /**
@@ -98,13 +97,17 @@ class MarconiQueue implements DrupalQueueInterface {
     // Drupal claims items one at a time.
     $options['limit'] = 1;
 
-    $message = $this->queue->claimMessages($options);
+    $item = new stdClass();
 
-    $item->item_id = $message->getId();
-    $item->data = json_decode($message->getBody());
+    if ($messages = $this->queue->claimMessages($options)) {
+      while ($message = $messages->next()) {
+        $item->item_id = $message->getId();
+        $item->data = json_decode($message->getBody(), TRUE);
 
-    if (!empty($item->item_id)) {
-      return $item;
+        if (!empty($item->item_id)) {
+          return $item;
+        }
+      }
     }
 
     return FALSE;
@@ -121,7 +124,6 @@ class MarconiQueue implements DrupalQueueInterface {
   }
 
   public function releaseItem($item) {
-
   }
 
   /**
@@ -129,12 +131,18 @@ class MarconiQueue implements DrupalQueueInterface {
    */
   protected function connect() {
     $params = $this->params;
+
     $class = 'OpenCloud\\' . $params['provider'];
     if (!class_exists($class)) {
       $class = 'OpenCloud\OpenStack';
     }
     $this->connection = new $class($params['auth_url'], $params['credentials']);
-    $this->service = new OpenCloud\Queues\Service($this->connection, $params['service'], $params['region']);
+    $this->service = $this->connection->queuesService($params['service'], $params['region']);
     $this->service->setClientId($params['client_id']);
+
+    if (!$this->service->hasQueue($this->name)) {
+      $this->createQueue();
+    }
+    $this->queue = $this->service->getQueue($this->name);
   }
 }
