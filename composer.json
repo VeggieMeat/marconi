@@ -2,7 +2,14 @@
   "name":"drupal/marconi",
   "type":"drupal-module",
   "description":"Marconi is an OpenStack project designed to be an open alternative to Amazon SQS and SNS. This module implements Marconi as an alternative Drupal Queue backend.",
-  "license":"GPL-2.0",
+  "license":"GPL-2.0+",
+  "authors": [
+    {
+      "name": "Brian Altenhofel",
+      "email": "brian.altenhofel@vmdoh.com",
+      "homepage": "http://www.vmdoh.com"
+    }
+  ],
   "require": {
     "rackspace/php-opencloud": "1.7.3"
   }
