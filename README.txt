@@ -26,7 +26,7 @@ Default configuration for all Marconi queues can be specified by setting the
 marconi_default_queue variable as follows:
 
   $conf['marconi_default_queue'] = array(
-    'client_id' => '00000000-0000-0000-0000-000000000000', // Must be a UUID.
+    'client_id' => '00000000-0000-0000-0000-000000000000', Optional.
     'auth_url' => 'https://example.com/v2/identity',
     'credentials' => array(
       'username' => 'username',
@@ -49,11 +49,11 @@ For example, to use Rackspace Cloud Queues, the following settings array would
 be required (assuming a queue name of 'marconi_queue' and the Chicago region):
 
   $conf['marconi_default_queue'] = array(
-    'client_id' => '00000000-0000-0000-0000-000000000000',
+    'client_id' => '00000000-0000-0000-0000-000000000000', // Required, UUID.
     'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
     'credentials' => array(
       'username' => 'username',
-      'apiKey' => 'password',
+      'apiKey' => 'API-Key',
     ),
     'queue' => array(
       'marconi_queue',
@@ -61,6 +61,22 @@ be required (assuming a queue name of 'marconi_queue' and the Chicago region):
     'region' => 'ORD',
     'service' => 'cloudQueues',
     'provider' => 'Rackspace', // There is an OpenCloud\Rackspace class
+  );
+
+As another example, HP Cloud MSGaaS would likely work with the following config-
+uration (currently untested):
+
+  $conf['marconi_default_queue'] = array(
+    'auth_url' => 'https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/',
+    'credentials' => array(
+      'username' => 'username',
+      'password' => 'password',
+    ),
+    'queue' => array(
+      'marconi_queue',
+    ),
+    'region' => 'region-b.geo-1',
+    'service' => 'messaging',
   );
 
 Specifying multiple items in the queue array will enable you to use multiple
@@ -73,6 +89,6 @@ $conf['marconi_default_queue'].
 
   $conf['marconi_queue_{queue_name}'] = array(
     'queue' => array(
-      'marconi_queue_url',
+      'marconi_queue_name',
     ),
   );

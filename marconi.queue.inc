@@ -145,7 +145,10 @@ class MarconiQueue implements DrupalQueueInterface {
     }
     $this->connection = new $class($params['auth_url'], $params['credentials']);
     $this->service = $this->connection->queuesService($params['service'], $params['region']);
-    $this->service->setClientId($params['client_id']);
+
+    if (isset($params['client_id'])) {
+      $this->service->setClientId($params['client_id']);
+    }
 
     if (!$this->service->hasQueue($this->name)) {
       $this->createQueue();
