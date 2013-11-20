@@ -120,7 +120,7 @@ class MarconiQueue implements DrupalQueueInterface {
     $this->queue->deleteMessages(array($item->item_id));
   }
 
-  public function releaseClaim($item);
+  public function releaseItem($item);
 
   /**
    * Connect to a Marconi queue.
