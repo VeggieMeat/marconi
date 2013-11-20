@@ -16,7 +16,7 @@ function marconi_loaded() {
   if (!isset($loaded)) {
     // Try loading via Composer Manager.
     if (!class_exists('\OpenCloud\OpenStack' && module_exists('composer_manager'))) {
-      require_once DRUPAL_ROOT . '/sites/all/vendor/autoload.php';
+      composer_manager_register_autoloader();
       $loaded = class_exists('\OpenCloud\OpenStack');
     }
   }
