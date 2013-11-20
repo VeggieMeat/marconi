@@ -10,10 +10,9 @@ class MarconiQueue implements DrupalQueueInterface {
   /**
    * Start working with a queue.
    *
-   * @param string name
+   * @param string $name
    *   The name of the queue to work with.
    */
-
   public function __construct($name) {
     if (marconi_loaded()) {
       $this->name = $name;
@@ -49,6 +48,7 @@ class MarconiQueue implements DrupalQueueInterface {
    *   Arbitrary data to be associated with the new task in the queue.
    *
    * @return bool
+   *   Returns TRUE if successful.
    */
   public function createItem($data) {
     $ttl = isset($this->params['ttl']) ? $this->params['ttl'] : 3600;
@@ -123,7 +123,14 @@ class MarconiQueue implements DrupalQueueInterface {
     $this->queue->deleteMessages(array($item->item_id));
   }
 
+  /**
+   * Release an item from the queue.
+   *
+   * @param Message $item
+   *   The item to be released.
+   */
   public function releaseItem($item) {
+    // @TODO This does not seem to be implemented in php-opencloud yet.
   }
 
   /**

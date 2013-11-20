@@ -9,11 +9,12 @@
  * Ensure that php-opencloud library is loaded.
  *
  * @return bool
+ *   Returns TRUE if the library is loaded.
  */
 function marconi_loaded() {
   $loaded = &drupal_static(__FUNCTION__);
   if (!isset($loaded)) {
-    // Try loading via Composer Manager
+    // Try loading via Composer Manager.
     if (!class_exists('\OpenCloud\OpenStack' && module_exists('composer_manager'))) {
       require_once DRUPAL_ROOT . '/sites/all/vendor/autoload.php';
       $loaded = class_exists('\OpenCloud\OpenStack');
@@ -26,7 +27,7 @@ function marconi_loaded() {
 /**
  * Get queue parameters.
  *
- * @param string name
+ * @param string $name
  *   The name of the queue.
  *
  * @return array
