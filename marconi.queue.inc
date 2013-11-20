@@ -15,10 +15,8 @@ class MarconiQueue implements DrupalQueueInterface {
    */
   public function __construct($name) {
     if (marconi_loaded()) {
-      module_load_include('inc', 'ctools', 'includes/cleanstring');
-
-      $this->name = ctools_cleanstring(variable_get('site_name', 'default'), array('separator' => '')) . '_' . $name;
       $this->params = marconi_get_queue_options($name);
+      $this->name = isset($this->params['prefix']) ? $this->params['prefix'] . '_' . $name : $name;
       $this->connect();
     }
   }

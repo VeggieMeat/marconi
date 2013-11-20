@@ -39,6 +39,7 @@ marconi_default_queue variable as follows:
     'region' => 'region',
     'service' => 'service',
     'provider' => 'provider', // Optional.
+    'prefix' => 'my_prefix', // Optional prefix to namespace queue.
   );
 
 The 'provider' setting is optional and can be used to load a php-opencloud
