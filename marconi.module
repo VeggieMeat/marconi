@@ -12,8 +12,8 @@ function marconi_libraries_info() {
   $libraries['php-opencloud'] = array(
     'name' => 'PHP-OpenCloud',
     'vendor url' => 'https://github.com/rackspace/php-opencloud',
-    'download url' => 'https://github.com/rackspace/php-opencloud/archive/v1.7.0.tar.gz',
-    'version' => '1.7.0',
+    'download url' => 'https://github.com/rackspace/php-opencloud/archive/v1.7.3.tar.gz',
+    'version' => '1.7.3',
     'files' => array(
       'php' => array(
         'lib/php-opencloud.php',
