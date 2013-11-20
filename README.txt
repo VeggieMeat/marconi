@@ -7,9 +7,7 @@ Installation
 ------------
 
 1. Install and enable as you would any other Drupal module.
-2. Install php-opencloud library to sites/all/libraries if using the Libraries
-   API module. Alternatively, php-opencloud can be installed using the
-   Composer Manager module.
+2. PHP-Opencloud must be installed using the Composer Manager module.
 
 If you want to use Marconi as the default queue manager, add the following to
 your settings.php:
