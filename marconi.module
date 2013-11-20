@@ -36,7 +36,7 @@ function marconi_loaded() {
 function marconi_get_queue_options($name) {
   $options = &drupal_static(__FUNCTION__);
   if (!isset($options[$name])) {
-    $options[$name] = variable_get('marconi_queue' . $name, array());
+    $options[$name] = variable_get('marconi_queue_' . $name, array());
 
     $defaults = variable_get('marconi_default_queue', array());
     $options[$name] += $defaults;
