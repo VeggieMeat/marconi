@@ -34,21 +34,12 @@ function marconi_loaded() {
  *   An array of parameters for this queue.
  */
 function marconi_get_queue_options($name) {
-  module_load_include('inc', 'ctools', 'includes/cleanstring');
-
   $options = &drupal_static(__FUNCTION__);
   if (!isset($options[$name])) {
     $options[$name] = variable_get('marconi_queue' . $name, array());
 
     $defaults = variable_get('marconi_default_queue', array());
     $options[$name] += $defaults;
-  }
-
-  // We must specify a client ID. Here is a sane default.
-  if (!isset($options[$name]['client_id']) || empty($options[$name]['client_id'])) {
-    $options[$name]['client_id'] = ctools_cleanstring(variable_get('site_name', 'default'), array(
-      'separator' => '',
-    ));
   }
 
   return $options[$name];

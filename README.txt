@@ -26,6 +26,7 @@ Default configuration for all Marconi queues can be specified by setting the
 marconi_default_queue variable as follows:
 
   $conf['marconi_default_queue'] = array(
+    'client_id' => '00000000-0000-0000-0000-000000000000', // Must be a UUID.
     'auth_url' => 'https://example.com/v2/identity',
     'credentials' => array(
       'username' => 'username',
@@ -37,17 +38,18 @@ marconi_default_queue variable as follows:
     ),
     'region' => 'region',
     'service' => 'service',
-    'provider' => 'provider', // Optional
-    'client_id' => 'client_id', // Optional
+    'provider' => 'provider', // Optional.
   );
 
 The 'provider' setting is optional and can be used to load a php-opencloud
-connection class specific to that provider.
+connection class specific to that provider. The 'client_id' is used to ensure
+that messages are not echoed back unless explicitly requested.
 
 For example, to use Rackspace Cloud Queues, the following settings array would
 be required (assuming a queue name of 'marconi_queue' and the Chicago region):
 
   $conf['marconi_default_queue'] = array(
+    'client_id' => '00000000-0000-0000-0000-000000000000',
     'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
     'credentials' => array(
       'username' => 'username',
