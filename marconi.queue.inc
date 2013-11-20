@@ -24,15 +24,12 @@ class MarconiQueue implements DrupalQueueInterface {
 
   /**
    * Create a queue.
-   *
-   * @param string $name
-   *   The name of the queue to create.
    */
-  public function createQueue($name) {
+  public function createQueue() {
     $this->queue = $this->service->getQueue();
     $this->queue->create(
       array(
-        'name' => $name,
+        'name' => $this->name,
         'metadata' => $this->params['metadata'],
       )
     );
@@ -40,13 +37,10 @@ class MarconiQueue implements DrupalQueueInterface {
 
   /**
    * Delete a queue.
-   *
-   * @param string $name
-   *   The name of the queue to delete.
    */
-  public function deleteQueue($name) {
+  public function deleteQueue() {
     $this->queue = $this->service->getQueue();
-    $this->queue->setName($name);
+    $this->queue->setName($this->name);
     $this->queue->delete();
   }
 
@@ -63,6 +57,25 @@ class MarconiQueue implements DrupalQueueInterface {
     $message->setBody(json_encode($data));
     $message->setTtl($this->params['ttl']);
     return $message->create();
+  }
+
+  /**
+   * Retrieve the number of items in the queue.
+   *
+   * This is intended to provide a "best guess" count of the number of items in
+   * the queue. Depending on the implementation and the setup, the accuracy of
+   * the results of this function may vary.
+   *
+   * e.g. On a busy system with a large number of consumers and items, the
+   * result might only be valid for a fraction of a second and not provide an
+   * accurate representation.
+   *
+   * @return int
+   *   An integer estimate of the number of items in the queue.
+   */
+  public function numberOfItems() {
+    $stats = $this->queue->getStats();
+    return $stats['total'];
   }
 
   /**
@@ -106,6 +119,8 @@ class MarconiQueue implements DrupalQueueInterface {
   public function deleteItem($item) {
     $this->queue->deleteMessages(array($item->item_id));
   }
+
+  public function releaseClaim($item);
 
   /**
    * Connect to a Marconi queue.
