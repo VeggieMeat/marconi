@@ -16,6 +16,8 @@ class MarconiQueue implements DrupalQueueInterface {
   public function __construct($name) {
     if (marconi_loaded()) {
       $this->params = marconi_get_queue_options($name);
+      // Override name if necessary.
+      $name = isset($this->params['queue']) ? $this->params['queue'] : $name;
       $this->name = isset($this->params['prefix']) ? $this->params['prefix'] . '_' . $name : $name;
       $this->connect();
     }

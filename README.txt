@@ -26,16 +26,14 @@ Default configuration for all Marconi queues can be specified by setting the
 marconi_default_queue variable as follows:
 
   $conf['marconi_default_queue'] = array(
-    'client_id' => '00000000-0000-0000-0000-000000000000', Optional.
+    'client_id' => '00000000-0000-0000-0000-000000000000', // Optional.
     'auth_url' => 'https://example.com/v2/identity',
     'credentials' => array(
       'username' => 'username',
       'password' => 'password',
       'tenantName' => 'tenant',
     ),
-    'queue' => array(
-      'marconi_queue',
-    ),
+    'queue' => 'marconi_queue', // Custom non-Drupal queue name. Optional.
     'region' => 'region',
     'service' => 'service',
     'provider' => 'provider', // Optional.
@@ -56,9 +54,6 @@ be required (assuming a queue name of 'marconi_queue' and the Chicago region):
       'username' => 'username',
       'apiKey' => 'API-Key',
     ),
-    'queue' => array(
-      'marconi_queue',
-    ),
     'region' => 'ORD',
     'service' => 'cloudQueues',
     'provider' => 'Rackspace', // There is an OpenCloud\Rackspace class
@@ -73,9 +68,6 @@ uration (currently untested):
       'username' => 'username',
       'password' => 'password',
     ),
-    'queue' => array(
-      'marconi_queue',
-    ),
     'region' => 'region-b.geo-1',
     'service' => 'messaging',
   );
@@ -89,7 +81,5 @@ any setting that is not specified will use the relevant setting from
 $conf['marconi_default_queue'].
 
   $conf['marconi_queue_{queue_name}'] = array(
-    'queue' => array(
-      'marconi_queue_name',
-    ),
+    'queue' => 'my_other_queue',
   );
