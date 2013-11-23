@@ -132,7 +132,7 @@ class MarconiQueue implements DrupalQueueInterface {
   public function releaseItem($item) {
     $claimed_item = $this->queue->getClaim($item->item_id);
     if ($claimed_item) {
-      return $claimed_item->delete();
+      $claimed_item->delete();
     }
   }
 
