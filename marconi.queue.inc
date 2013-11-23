@@ -130,7 +130,10 @@ class MarconiQueue implements DrupalQueueInterface {
    *   The item to be released.
    */
   public function releaseItem($item) {
-    // @TODO This does not seem to be implemented in php-opencloud yet.
+    $claimed_item = $this->queue->getClaim($item->item_id);
+    if ($claimed_item) {
+      return $claimed_item->delete();
+    }
   }
 
   /**
