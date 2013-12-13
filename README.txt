@@ -2,12 +2,34 @@ Marconi is an OpenStack project designed to be an open alternative to Amazon
 SQS and SNS. The Marconi module implements Openstack Marconi as an alternative
 Drupal Queue backend.
 
-
-Installation
+Installation (via Drush - recommended)
 ------------
 
-1. Install and enable as you would any other Drupal module.
-2. PHP-Opencloud must be installed using the Composer Manager module.
+  drush dl marconi
+  drush en marconi
+  drush composer-manager install
+
+Installation (Manual)
+------------
+
+1. Download and install Composer Manager module.
+2. Download and install Marconi module.
+3. Rebuild dependencies at admin/config/system/composer-manager.
+
+4A. If you have Composer installed, at sites/default/files/composer run:
+
+      composer install
+
+4B. If you do not have Composer installed, at sites/default/files/composer run:
+
+      curl -sS https://getcomposer.org/installer | php
+      php composer.phar install
+
+5. Check admin/config/system/composer-manager to ensure that all dependencies
+   have been properly installed.
+
+Configuration
+-------------
 
 If you want to use Marconi as the default queue manager, add the following to
 your settings.php:
@@ -17,10 +39,6 @@ your settings.php:
 Alternatively, you can also use Marconi for specific queues:
 
   $conf['queue_class_{queue_name}'];
-
-
-Configuration
--------------
 
 Default configuration for all Marconi queues can be specified by setting the
 marconi_default_queue variable as follows:
