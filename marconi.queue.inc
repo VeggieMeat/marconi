@@ -90,6 +90,9 @@ class MarconiQueue implements DrupalQueueInterface {
    *   messages at least as long as the claim itself, plus a specified grace
    *   period to deal with crashed workers. Value must be between 60 and 43200
    *   seconds. Default is 12 hours.
+   *
+   * @return object|bool
+   *   An object if the item exists. FALSE if the item does not exist.
    */
   public function claimItem($ttl = 43200, $grace = 43200) {
     $options = array();
@@ -104,9 +107,9 @@ class MarconiQueue implements DrupalQueueInterface {
     if ($messages = $this->queue->claimMessages($options)) {
       while ($message = $messages->next()) {
         $item->item_id = $message->getId();
-        $item->data = json_decode($message->getBody(), TRUE);
 
         if (!empty($item->item_id)) {
+          $item->data = json_decode($message->getBody(), TRUE);
           return $item;
         }
       }
