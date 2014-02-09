@@ -54,7 +54,7 @@ class MarconiQueue implements DrupalQueueInterface {
   public function createItem($data) {
     $ttl = isset($this->params['ttl']) ? $this->params['ttl'] : 3600;
     return $this->queue->createMessage(array(
-      'body' => json_encode($data),
+      'body' => $data,
       'ttl' => $ttl,
     ));
   }
@@ -108,7 +108,7 @@ class MarconiQueue implements DrupalQueueInterface {
         $item->item_id = $message->getId();
 
         if (!empty($item->item_id)) {
-          $item->data = json_decode($message->getBody(), TRUE);
+          $item->data = $message->getBody();
           return $item;
         }
       }

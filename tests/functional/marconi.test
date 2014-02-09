@@ -28,7 +28,7 @@ class MarconiTest extends DrupalWebTestCase {
 
     // This will need to be adjusted for your environment.
     $conf['marconi_default_queue'] = array(
-      'client_id' => uniqid(),
+      'client_id' => '00000000-0000-0000-0000-000000000000',
       'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
       'credentials' => array(
         'username' => '',
