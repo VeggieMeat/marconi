@@ -90,7 +90,6 @@ class MarconiTest extends DrupalWebTestCase {
   private function queueScore($items, $new_items) {
     $score = 0;
     foreach ($items as $item) {
-      $item = (object) $item;
       foreach ($new_items as $new_item) {
         if ($item == $new_item) {
           $score++;

@@ -45,7 +45,7 @@ class MarconiQueue implements DrupalQueueInterface {
   /**
    * Add a queue item and store it directly to the queue.
    *
-   * @param object $data
+   * @param mixed $data
    *   Arbitrary data to be associated with the new task in the queue.
    *
    * @return bool
@@ -54,7 +54,7 @@ class MarconiQueue implements DrupalQueueInterface {
   public function createItem($data) {
     $ttl = isset($this->params['ttl']) ? $this->params['ttl'] : 3600;
     return $this->queue->createMessage(array(
-      'body' => $data,
+      'body' => json_encode($data),
       'ttl' => $ttl,
     ));
   }
@@ -108,7 +108,7 @@ class MarconiQueue implements DrupalQueueInterface {
         $item->item_id = $message->getId();
 
         if (!empty($item->item_id)) {
-          $item->data = $message->getBody();
+          $item->data = json_decode($message->getBody(), TRUE);
           return $item;
         }
       }
