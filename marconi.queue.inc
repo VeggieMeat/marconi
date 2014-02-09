@@ -27,8 +27,7 @@ class MarconiQueue implements DrupalQueueInterface {
    * Create a queue.
    */
   public function createQueue() {
-    $this->queue = $this->service->getQueue();
-    $this->queue->create($this->name);
+    $this->queue = $this->service->createQueue($this->name);
     if (!empty($this->params['metadata'])) {
       $this->queue->setMetadata($this->params['metadata']);
     }
