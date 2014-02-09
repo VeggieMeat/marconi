@@ -4,8 +4,5 @@ core = 7.x
 
 dependencies[] = composer_manager
 
-// MarconiQueue class
 files[] = marconi.queue.inc
-
-// Simpletest function tests
 files[] = tests/functional/marconi.test

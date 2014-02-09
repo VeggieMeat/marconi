@@ -14,7 +14,7 @@ class MarconiTest extends DrupalWebTestCase {
     return array(
       'name' => 'Marconi',
       'description' => 'Check basic queue functionality.',
-      'group' => 'Drupal Queue',
+      'group' => 'Marconi',
     );
   }
 
@@ -23,6 +23,23 @@ class MarconiTest extends DrupalWebTestCase {
   }
 
   public function testQueue() {
+    global $conf;
+    global $databases;
+
+    // This will need to be adjusted for your environment.
+    $conf['marconi_default_queue'] = array(
+      'client_id' => uniqid(),
+      'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
+      'credentials' => array(
+        'username' => '',
+        'apiKey' => '',
+      ),
+      'region' => 'IAD',
+      'service' => 'cloudQueues',
+      'prefix' => $databases['default']['default']['database'],
+      'provider' => 'Rackspace', // There is an OpenCloud\Rackspace class
+    );
+                                                                                    
     $name1 = $this->randomName();
     $name2 = $this->randomName();
 
