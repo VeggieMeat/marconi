@@ -11,6 +11,6 @@
     }
   ],
   "require": {
-    "rackspace/php-opencloud": "1.7.3"
+    "rackspace/php-opencloud": "1.9.2"
   }
 }
