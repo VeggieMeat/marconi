@@ -83,13 +83,14 @@ class MarconiTest extends DrupalWebTestCase {
       $queue1->deleteItem($item);
     }
 
-    $this->assertFalse($queue1->numberOfItems(), t('Queue 1 is empty.'));
-    $this->assertFalse($queue2->numberOfItems(), t('Queue 2 is empty.'));
+    $this->assertFalse($queue1->numberOfItems(), t('Queue 1 is empty. Both items were deleted from this queue.'));
+    $this->assertFalse($queue2->numberOfItems(), t('Queue 2 is empty. No items were added to this queue.'));
   }
 
   private function queueScore($items, $new_items) {
     $score = 0;
     foreach ($items as $item) {
+      $item = (object) $item;
       foreach ($new_items as $new_item) {
         if ($item == $new_item) {
           $score++;
