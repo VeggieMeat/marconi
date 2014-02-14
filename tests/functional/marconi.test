@@ -9,7 +9,7 @@
  * Tests queue functionality.
  */
 class MarconiTest extends DrupalWebTestCase {
-  
+
   public static function getInfo() {
     return array(
       'name' => 'Marconi',
@@ -22,6 +22,9 @@ class MarconiTest extends DrupalWebTestCase {
     parent::setUp('marconi');
   }
 
+  /**
+   * Test basic queue functionality.
+   */
   public function testQueue() {
     global $conf;
     global $databases;
@@ -39,7 +42,7 @@ class MarconiTest extends DrupalWebTestCase {
       'prefix' => $databases['default']['default']['database'],
       'provider' => 'Rackspace', // There is an OpenCloud\Rackspace class
     );
-                                                                                    
+
     $name1 = $this->randomName();
     $name2 = $this->randomName();
 
@@ -87,6 +90,9 @@ class MarconiTest extends DrupalWebTestCase {
     $this->assertFalse($queue2->numberOfItems(), t('Queue 2 is empty. No items were added to this queue.'));
   }
 
+  /**
+   * Helper function to compare number of items.
+   */
   private function queueScore($items, $new_items) {
     $score = 0;
     foreach ($items as $item) {
