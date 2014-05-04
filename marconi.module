@@ -13,12 +13,10 @@
  */
 function marconi_loaded() {
   $loaded = &drupal_static(__FUNCTION__);
-  if (!isset($loaded)) {
+  if ($loaded == FALSE) {
     // Try loading via Composer Manager.
-    if (!class_exists('\OpenCloud\OpenStack') && module_exists('composer_manager')) {
-      composer_manager_register_autoloader();
-      $loaded = class_exists('\OpenCloud\OpenStack');
-    }
+    composer_manager_register_autoloader();
+    $loaded = class_exists('\OpenCloud\OpenStack');
   }
 
   return $loaded;
