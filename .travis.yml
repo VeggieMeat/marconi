@@ -1,0 +1,42 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  global:
+    - secure: "YwRjLD4i/nDLsNSThxJMu4l0cjMQYN/MfVAkIL6qKlxieBdlWcD9XwcBkNgf5aHsdu/9O/oEmsjCw4LJwxMCKKTqr7kkRA5u+PZ4v82DkPcixFAox/Mmxs1EUhP0YBD3uWXH3qCVpcWL6OVxUTfcfNRO8xgT4o9lXT7ZkDs7j1k="
+    - secure: "gmU2uAQXNk/GOe/HcVOlf4HdtzqCa4OxLU3HVynZBPWHcHXsoIcpjzD/p8XmWbuujnHcwZWC0w3+VwRtRc1RIyMKpMWhElsuG5JxHY9Djd6QMoJ/Zz2A0cI7V8JXb6p8269y+HCDvfX4X8A27vhsl72udvQTgv6cwVXPadvFEVA="
+    - secure: "XUG2/FgdfKHlcPwQOPVW7zQ9VqHauXKsjQXDvo+Q3HL7ko6DzOX5BdS4BL4B6x6485Mx/Sen8bKQULQkPAZeGelpIgBCjTYeclY4N/92N9au2hQ6ibIa7me5TsYhPR0unpGZhtIYrNvWqzMUMtZTigKCvmmCdt889DIzErCX3xA="
+    - secure: "NMo4U85i0edUtRIrI77lyRs4eyWcsnEZbRqi/qvrPtvtPHBZxU0ovu7rXjijI6DHyzBIwH6nkmJrfE8kWX3G/xxqN2EQpXEdJZSdhgL09mA5PewPe9gW27WVG4Z1PzEFZJQp8kJM3mYmcX3gy3xuL89DZ7ZDYlZMNoSG/R1hlEY="
+    - DATABASE='drupal'
+    - DB_USERNAME='root'
+    - DB_ENCODE='utf8'
+    - MODULE_PATH='build/sites/all/modules'
+
+mysql:
+  database: $DATABASE
+  username: $DB_USERNAME
+  encoding: $DB_ENCODE
+
+before_install:
+  - composer self-update
+  - pear channel-discover pear.drush.org
+
+install:
+  - pear install drush/drush
+  - phpenv rehash
+
+before_script:
+  - drush --yes make tests/includes/marconi.make build
+  - mkdir -p $MODULE_PATH
+  - git archive $(git rev-parse --abbrev-ref HEAD) | tar -x -C $MODULE_PATH
+  - cd build
+  - drush --yes site-install minimal --db-url="mysql://$DB_USERNAME@127.0.0.1/$DATABASE"
+  - drush --yes en marconi
+  - drush --yes en simpletest
+
+script:
+  - php scripts/run-tests.sh --php $(which php) --color 'Marconi'
