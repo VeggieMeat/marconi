@@ -41,3 +41,4 @@ before_script:
 
 script:
   - php scripts/run-tests.sh --php $(which php) --color 'Marconi'
+  - drush test-run Marconi --debug
