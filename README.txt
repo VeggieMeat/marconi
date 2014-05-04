@@ -101,3 +101,15 @@ $conf['marconi_default_queue'].
   $conf['marconi_queue_{queue_name}'] = array(
     'queue' => 'my_other_queue',
   );
+
+TESTING
+-------
+
+The following environment variables need to be set to run tests. Right now, the
+tests run against Rackspace Cloud Queues. It is advised to run the tests via
+Drush (drush test-run Marconi).
+
+  marconi_client_id (UUID to identify your site. Can be anything.)
+  marconi_username (Your Rackspace Cloud username.)
+  marconi_apikey (Your Rackspace Cloud API Key.)
+  marconi_region (The region you would like to use, such as IAD or DFW.)
