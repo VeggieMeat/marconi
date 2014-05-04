@@ -34,7 +34,7 @@ before_script:
   - mkdir -p $MODULE_PATH
   - git archive $(git rev-parse --abbrev-ref HEAD) | tar -x -C $MODULE_PATH
   - cd build
-  - drush --yes site-install minimal --db-url="mysql://$DB_USERNAME@127.0.0.1/$DATABASE" --account-mail travis@localhost
+  - php -d sendmail_path=/dev/null drush --yes site-install minimal --db-url="mysql://$DB_USERNAME@127.0.0.1/$DATABASE"
   - drush --yes en marconi
   - drush --yes en simpletest
 
