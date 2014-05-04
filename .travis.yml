@@ -30,6 +30,7 @@ install:
   - phpenv rehash
 
 before_script:
+  - echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - drush --yes make tests/includes/marconi.make build
   - mkdir -p $MODULE_PATH
