@@ -31,13 +31,13 @@ class MarconiTest extends DrupalWebTestCase {
 
     // This will need to be adjusted for your environment.
     $conf['marconi_default_queue'] = array(
-      'client_id' => '00000000-0000-0000-0000-000000000000',
+      'client_id' => $_ENV['marconi_client_id'],
       'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
       'credentials' => array(
-        'username' => '',
-        'apiKey' => '',
+        'username' => $_ENV['marconi_username'],
+        'apiKey' => $_ENV['marconi_apikey'],
       ),
-      'region' => 'IAD',
+      'region' => $_ENV['marconi_region'],
       'service' => 'cloudQueues',
       'prefix' => $databases['default']['default']['database'],
       'provider' => 'Rackspace', // There is an OpenCloud\Rackspace class
