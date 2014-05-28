@@ -22,7 +22,7 @@ class MarconiQueue implements DrupalQueueInterface {
       $this->connect();
     }
     else {
-      watchdog('Marconi', 'PHP-Opencloud library is not loaded.', array(), WATCHDOG_ERROR)
+      watchdog('Marconi', 'PHP-Opencloud library is not loaded.', array(), WATCHDOG_ERROR);
     }
   }
 
