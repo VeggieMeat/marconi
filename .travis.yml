@@ -47,4 +47,4 @@ script:
   - drush test-run Marconi --debug
 
 notifications:
-  - irc: irc.freenode.org#vmdoh
+  irc: irc.freenode.org#vmdoh
