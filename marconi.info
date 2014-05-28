@@ -1,5 +1,5 @@
 name = Marconi
-description = "Use Marconi as an alternative Drupal Queue backend."
+description = "Allows the use of Marconi as an alternative Drupal Queue backend."
 core = 7.x
 
 dependencies[] = composer_manager

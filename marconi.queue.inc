@@ -21,6 +21,9 @@ class MarconiQueue implements DrupalQueueInterface {
       $this->name = isset($this->params['prefix']) ? $this->params['prefix'] . '_' . $name : $name;
       $this->connect();
     }
+    else {
+      watchdog('Marconi', 'PHP-Opencloud library is not loaded.', array(), WATCHDOG_ERROR)
+    }
   }
 
   /**
@@ -81,7 +84,7 @@ class MarconiQueue implements DrupalQueueInterface {
   /**
    * Claim an item in the queue for processing.
    *
-   * @param int $ttl
+   * @param int $lease
    *   How long the processing is expected to take, in seconds. Value must be
    *   between 60 and 43200 seconds. The default is 12 hours.
    * @param int $grace
@@ -93,9 +96,9 @@ class MarconiQueue implements DrupalQueueInterface {
    * @return object|bool
    *   An object if the item exists. FALSE if the item does not exist.
    */
-  public function claimItem($ttl = 43200, $grace = 43200) {
+  public function claimItem($lease = 43200, $grace = 43200) {
     $options = array();
-    $options['ttl'] = $ttl;
+    $options['ttl'] = $lease;
     $options['grace'] = $grace;
 
     // Drupal claims items one at a time.

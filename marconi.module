@@ -32,7 +32,6 @@ function marconi_loaded() {
  *   An array of parameters for this queue.
  */
 function marconi_get_queue_options($name) {
-  $options = &drupal_static(__FUNCTION__);
   if (!isset($options[$name])) {
     $options[$name] = variable_get('marconi_queue_' . $name, array());
 
