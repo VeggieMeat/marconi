@@ -9,6 +9,10 @@ php:
   - 5.5
   - hhvm
 
+matrix:
+  allow_failures:
+    - php: hhvm
+
 env:
   global:
     - secure: "YwRjLD4i/nDLsNSThxJMu4l0cjMQYN/MfVAkIL6qKlxieBdlWcD9XwcBkNgf5aHsdu/9O/oEmsjCw4LJwxMCKKTqr7kkRA5u+PZ4v82DkPcixFAox/Mmxs1EUhP0YBD3uWXH3qCVpcWL6OVxUTfcfNRO8xgT4o9lXT7ZkDs7j1k="
