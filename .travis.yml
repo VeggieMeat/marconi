@@ -35,13 +35,13 @@ install:
 before_script:
   - echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - drush --yes make tests/includes/marconi.make build
+  - $TRAVIS_BUILD_DIR/vendor/bin/drush --yes make tests/includes/marconi.make build
   - mkdir -p $MODULE_PATH
   - git archive $(git rev-parse --abbrev-ref HEAD) | tar -x -C $MODULE_PATH
   - cd build
-  - drush --yes site-install minimal --db-url="mysql://$DB_USERNAME@127.0.0.1/$DATABASE"
-  - drush --yes en marconi
-  - drush --yes en simpletest
+  - $TRAVIS_BUILD_DIR/vendor/bin/drush --yes site-install minimal --db-url="mysql://$DB_USERNAME@127.0.0.1/$DATABASE"
+  - $TRAVIS_BUILD_DIR/vendor/bin/drush --yes en marconi
+  - $TRAVIS_BUILD_DIR/vendor/bin/drush --yes en simpletest
 
 script:
   - drush test-run Marconi --debug
