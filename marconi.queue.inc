@@ -19,6 +19,7 @@ class MarconiQueue implements DrupalQueueInterface {
       // Override name if necessary.
       $name = isset($this->params['queue']) ? $this->params['queue'] : $name;
       $this->name = isset($this->params['prefix']) ? $this->params['prefix'] . '_' . $name : $name;
+      $this->name = preg_replace("/[^\w]/", "_", $this->name);
       $this->connect();
     }
     else {
