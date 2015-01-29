@@ -12,5 +12,8 @@
   ],
   "require": {
     "rackspace/php-opencloud": ">=1.9.2"
+  },
+  "require-dev": {
+    "drush/drush": "6.*"
   }
 }
