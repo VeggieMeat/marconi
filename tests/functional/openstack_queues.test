@@ -31,13 +31,13 @@ class OpenstackQueuesTest extends DrupalWebTestCase {
 
     // This will need to be adjusted for your environment.
     $conf['openstack_queues_default_queue'] = array(
-      'client_id' => $_ENV['openstack_queues_client_id'],
+      'client_id' => $_ENV['marconi_client_id'],
       'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
       'credentials' => array(
-        'username' => $_ENV['openstack_queues_username'],
-        'apiKey' => $_ENV['openstack_queues_apikey'],
+        'username' => $_ENV['marconi_username'],
+        'apiKey' => $_ENV['marconi_apikey'],
       ),
-      'region' => $_ENV['openstack_queues_region'],
+      'region' => $_ENV['marconi_region'],
       'service' => 'cloudQueues',
       'prefix' => $databases['default']['default']['database'],
       'provider' => 'Rackspace', // There is an OpenCloud\Rackspace class
