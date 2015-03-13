@@ -55,7 +55,7 @@ before_script:
   - $TRAVIS_BUILD_DIR/vendor/bin/drush --yes en simpletest
 
 script:
-  - $TRAVIS_BUILD_DIR/vendor/bin/drush test-run "Openstack Queues" --debug
+  - $TRAVIS_BUILD_DIR/vendor/bin/drush test-run OpenstackQueues --debug
 
 notifications:
   irc: irc.freenode.org#vmdoh
