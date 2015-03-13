@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains basic functions for Marconi
+ * Contains basic functions for OpenstackQueues
  */
 
 /**
@@ -11,7 +11,7 @@
  * @return bool
  *   Returns TRUE if the library is loaded.
  */
-function marconi_loaded() {
+function openstack_queues_loaded() {
   $loaded = &drupal_static(__FUNCTION__);
   if ($loaded == FALSE) {
     // Try loading via Composer Manager.
@@ -31,11 +31,11 @@ function marconi_loaded() {
  * @return array
  *   An array of parameters for this queue.
  */
-function marconi_get_queue_options($name) {
+function openstack_queues_get_queue_options($name) {
   if (!isset($options[$name])) {
-    $options[$name] = variable_get('marconi_queue_' . $name, array());
+    $options[$name] = variable_get('openstack_queues_queue_' . $name, array());
 
-    $defaults = variable_get('marconi_default_queue', array());
+    $defaults = variable_get('openstack_queues_default_queue', array());
     $options[$name] += $defaults;
   }
 

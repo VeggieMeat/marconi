@@ -2,24 +2,24 @@
 
 /**
  * @file
- * Tests for Marconi. Run with Simpletest.
+ * Tests for OpenstackQueues. Run with Simpletest.
  */
 
 /**
  * Tests queue functionality.
  */
-class MarconiTest extends DrupalWebTestCase {
+class OpenstackQueuesTest extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-      'name' => 'Marconi',
+      'name' => 'OpenstackQueues',
       'description' => 'Check basic queue functionality.',
-      'group' => 'Marconi',
+      'group' => 'OpenstackQueues',
     );
   }
 
   public function setUp() {
-    parent::setUp('marconi');
+    parent::setUp('openstack_queues');
   }
 
   /**
@@ -30,7 +30,7 @@ class MarconiTest extends DrupalWebTestCase {
     global $databases;
 
     // This will need to be adjusted for your environment.
-    $conf['marconi_default_queue'] = array(
+    $conf['openstack_queues_default_queue'] = array(
       'client_id' => $_ENV['marconi_client_id'],
       'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
       'credentials' => array(
@@ -46,14 +46,14 @@ class MarconiTest extends DrupalWebTestCase {
     $name1 = $this->randomName();
     $name2 = $this->randomName();
 
-    variable_set('queue_class_' . $name1, 'MarconiQueue');
-    variable_set('queue_class_' . $name2, 'MarconiQueue');
+    variable_set('queue_class_' . $name1, 'OpenstackQueuesQueue');
+    variable_set('queue_class_' . $name2, 'OpenstackQueuesQueue');
 
-    $queue1_settings = marconi_get_queue_options($name1);
-    $queue2_settings = marconi_get_queue_options($name2);
+    $queue1_settings = openstack_queues_get_queue_options($name1);
+    $queue2_settings = openstack_queues_get_queue_options($name2);
 
-    variable_set('marconi_queue_' . $name1, $queue1_settings);
-    variable_set('marconi_queue_' . $name2, $queue2_settings);
+    variable_set('openstack_queues_queue_' . $name1, $queue1_settings);
+    variable_set('openstack_queues_queue_' . $name2, $queue2_settings);
 
     $queue1 = DrupalQueue::get($name1);
     $queue1->createQueue();

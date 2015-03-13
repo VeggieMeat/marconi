@@ -1,0 +1,8 @@
+name = OpenstackQueues
+description = "Allows the use of Openstack Queues as an alternative Drupal Queue backend."
+core = 7.x
+
+dependencies[] = composer_manager
+
+files[] = openstack_queues.queue.inc
+files[] = tests/functional/openstack_queues.test
