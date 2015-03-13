@@ -1,5 +1,5 @@
-Openstack Queuesis an OpenStack project designed to be an open alternative to Amazon
-SQS and SNS. The Openstack Queuesmodule implements Openstack Openstack Queuesas an alternative
+Openstack Zaqar is an OpenStack project designed to be an open alternative to Amazon
+SQS and SNS. The Openstack Queues module implements Openstack Openstack Queues as an alternative
 Drupal Queue backend.
 
 Installation (via Drush - recommended)
@@ -13,7 +13,7 @@ Installation (Manual)
 ------------
 
 1. Download and install Composer Manager module.
-2. Download and install Openstack Queuesmodule.
+2. Download and install Openstack Queues module.
 3. Rebuild dependencies at admin/config/system/composer-manager.
 
 4A. If you have Composer installed, at sites/default/files/composer run:
@@ -31,16 +31,16 @@ Installation (Manual)
 Configuration
 -------------
 
-If you want to use Openstack Queuesas the default queue manager, add the following to
+If you want to use Openstack Queues as the default queue manager, add the following to
 your settings.php:
 
   $conf['queue_default_class'] = 'OpenstackQueuesQueue';
 
-Alternatively, you can also use Openstack Queuesfor specific queues:
+Alternatively, you can also use Openstack Queues for specific queues:
 
   $conf['queue_class_{queue_name}'];
 
-Default configuration for all Openstack Queuesqueues can be specified by setting the
+Default configuration for all Openstack queues can be specified by setting the
 openstack_queues_default_queue variable as follows:
 
   $conf['openstack_queues_default_queue'] = array(
@@ -91,7 +91,7 @@ uration (currently untested):
   );
 
 Specifying multiple items in the queue array will enable you to use multiple
-Openstack Queuesqueues.
+Openstack queues.
 
 Individual queues can override default settings by setting a variable in the
 following format. Please note that any setting can be overridden this way, and

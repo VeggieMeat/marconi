@@ -1,5 +1,5 @@
 name = OpenstackQueues
-description = "Allows the use of Openstack Queuesas an alternative Drupal Queue backend."
+description = "Allows the use of Openstack Queues as an alternative Drupal Queue backend."
 core = 7.x
 
 dependencies[] = composer_manager

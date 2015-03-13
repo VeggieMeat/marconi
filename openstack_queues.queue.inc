@@ -145,7 +145,7 @@ class OpenstackQueuesQueue implements DrupalQueueInterface {
   }
 
   /**
-   * Connect to a Openstack Queuesqueue.
+   * Connect to a Openstack queue.
    */
   protected function connect() {
     $params = $this->params;
