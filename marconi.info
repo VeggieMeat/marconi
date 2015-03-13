@@ -1,8 +1,0 @@
-name = Marconi
-description = "Allows the use of Marconi as an alternative Drupal Queue backend."
-core = 7.x
-
-dependencies[] = composer_manager
-
-files[] = marconi.queue.inc
-files[] = tests/functional/marconi.test

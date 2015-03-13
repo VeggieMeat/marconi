@@ -1,19 +1,19 @@
-Marconi is an OpenStack project designed to be an open alternative to Amazon
-SQS and SNS. The Marconi module implements Openstack Marconi as an alternative
+Openstack Queuesis an OpenStack project designed to be an open alternative to Amazon
+SQS and SNS. The Openstack Queuesmodule implements Openstack Openstack Queuesas an alternative
 Drupal Queue backend.
 
 Installation (via Drush - recommended)
 ------------
 
-  drush dl marconi
-  drush en marconi
+  drush dl openstack_queues
+  drush en openstack_queues
   drush composer-manager install
 
 Installation (Manual)
 ------------
 
 1. Download and install Composer Manager module.
-2. Download and install Marconi module.
+2. Download and install Openstack Queuesmodule.
 3. Rebuild dependencies at admin/config/system/composer-manager.
 
 4A. If you have Composer installed, at sites/default/files/composer run:
@@ -31,19 +31,19 @@ Installation (Manual)
 Configuration
 -------------
 
-If you want to use Marconi as the default queue manager, add the following to
+If you want to use Openstack Queuesas the default queue manager, add the following to
 your settings.php:
 
-  $conf['queue_default_class'] = 'MarconiQueue';
+  $conf['queue_default_class'] = 'OpenstackQueuesQueue';
 
-Alternatively, you can also use Marconi for specific queues:
+Alternatively, you can also use Openstack Queuesfor specific queues:
 
   $conf['queue_class_{queue_name}'];
 
-Default configuration for all Marconi queues can be specified by setting the
-marconi_default_queue variable as follows:
+Default configuration for all Openstack Queuesqueues can be specified by setting the
+openstack_queues_default_queue variable as follows:
 
-  $conf['marconi_default_queue'] = array(
+  $conf['openstack_queues_default_queue'] = array(
     'client_id' => '00000000-0000-0000-0000-000000000000', // Optional.
     'auth_url' => 'https://example.com/v2/identity',
     'credentials' => array(
@@ -51,7 +51,7 @@ marconi_default_queue variable as follows:
       'password' => 'password',
       'tenantName' => 'tenant',
     ),
-    'queue' => 'marconi_queue', // Custom non-Drupal queue name. Optional.
+    'queue' => 'openstack_queues_queue', // Custom non-Drupal queue name. Optional.
     'region' => 'region',
     'service' => 'service',
     'provider' => 'provider', // Optional.
@@ -63,9 +63,9 @@ connection class specific to that provider. The 'client_id' is used to ensure
 that messages are not echoed back unless explicitly requested.
 
 For example, to use Rackspace Cloud Queues, the following settings array would
-be required (assuming a queue name of 'marconi_queue' and the Chicago region):
+be required (assuming a queue name of 'openstack_queues_queue' and the Chicago region):
 
-  $conf['marconi_default_queue'] = array(
+  $conf['openstack_queues_default_queue'] = array(
     'client_id' => '00000000-0000-0000-0000-000000000000', // Required, UUID.
     'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
     'credentials' => array(
@@ -80,7 +80,7 @@ be required (assuming a queue name of 'marconi_queue' and the Chicago region):
 As another example, HP Cloud MSGaaS would likely work with the following config-
 uration (currently untested):
 
-  $conf['marconi_default_queue'] = array(
+  $conf['openstack_queues_default_queue'] = array(
     'auth_url' => 'https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/',
     'credentials' => array(
       'username' => 'username',
@@ -91,14 +91,14 @@ uration (currently untested):
   );
 
 Specifying multiple items in the queue array will enable you to use multiple
-Marconi queues.
+Openstack Queuesqueues.
 
 Individual queues can override default settings by setting a variable in the
 following format. Please note that any setting can be overridden this way, and
 any setting that is not specified will use the relevant setting from
-$conf['marconi_default_queue'].
+$conf['openstack_queues_default_queue'].
 
-  $conf['marconi_queue_{queue_name}'] = array(
+  $conf['openstack_queues_queue_{queue_name}'] = array(
     'queue' => 'my_other_queue',
   );
 
@@ -107,9 +107,9 @@ TESTING
 
 The following environment variables need to be set to run tests. Right now, the
 tests run against Rackspace Cloud Queues. It is advised to run the tests via
-Drush (drush test-run Marconi).
+Drush (drush test-run OpenstackQueues).
 
-  marconi_client_id (UUID to identify your site. Can be anything.)
-  marconi_username (Your Rackspace Cloud username.)
-  marconi_apikey (Your Rackspace Cloud API Key.)
-  marconi_region (The region you would like to use, such as IAD or DFW.)
+  openstack_queues_client_id (UUID to identify your site. Can be anything.)
+  openstack_queues_username (Your Rackspace Cloud username.)
+  openstack_queues_apikey (Your Rackspace Cloud API Key.)
+  openstack_queues_region (The region you would like to use, such as IAD or DFW.)

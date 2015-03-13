@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains MarconiQueue class implementing DrupalQueueInterface
+ * Contains OpenstackQueuesQueue class implementing DrupalQueueInterface
  */
 
-class MarconiQueue implements DrupalQueueInterface {
+class OpenstackQueuesQueue implements DrupalQueueInterface {
 
   /**
    * Start working with a queue.
@@ -14,8 +14,8 @@ class MarconiQueue implements DrupalQueueInterface {
    *   The name of the queue to work with.
    */
   public function __construct($name) {
-    if (marconi_loaded()) {
-      $this->params = marconi_get_queue_options($name);
+    if (openstack_queues_loaded()) {
+      $this->params = openstack_queues_get_queue_options($name);
       // Override name if necessary.
       $name = isset($this->params['queue']) ? $this->params['queue'] : $name;
       $this->name = isset($this->params['prefix']) ? $this->params['prefix'] . '_' . $name : $name;
@@ -23,7 +23,7 @@ class MarconiQueue implements DrupalQueueInterface {
       $this->connect();
     }
     else {
-      watchdog('Marconi', 'PHP-Opencloud library is not loaded.', array(), WATCHDOG_ERROR);
+      watchdog('OpenstackQueues', 'PHP-Opencloud library is not loaded.', array(), WATCHDOG_ERROR);
     }
   }
 
@@ -145,7 +145,7 @@ class MarconiQueue implements DrupalQueueInterface {
   }
 
   /**
-   * Connect to a Marconi queue.
+   * Connect to a Openstack Queuesqueue.
    */
   protected function connect() {
     $params = $this->params;
