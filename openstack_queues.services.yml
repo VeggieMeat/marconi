@@ -1,0 +1,3 @@
+services:
+  queue.openstack:
+    class: \Drupal\openstack_queues\Queue\OpenstackQueueFactory
