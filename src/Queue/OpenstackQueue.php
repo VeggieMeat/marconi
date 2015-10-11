@@ -34,8 +34,10 @@ class OpenstackQueue implements QueueInterface {
    */
   private $queue;
 
-  public function __construct($name) {
-    $this->getConfig($name);
+  public function __construct($name, Rackspace $connection, array $config) {
+    $this->config = $config;
+    $this->connection = $connection;
+    $this->setName($name);
     $this->connect();
   }
 
@@ -70,12 +72,12 @@ class OpenstackQueue implements QueueInterface {
    * result might only be valid for a fraction of a second and not provide an
    * accurate representation.
    *
-   * @return
+   * @return int
    *   An integer estimate of the number of items in the queue.
    */
   public function numberOfItems() {
     $stats = $this->queue->getStats();
-    return $stats->total;
+    return ($stats) ? $stats->total : 0;
   }
 
   /**
@@ -184,19 +186,12 @@ class OpenstackQueue implements QueueInterface {
     $this->queue->delete();
   }
 
-  private function getConfig($name) {
-    $config = Drupal::config('openstack_queues.settings');
-    $this->config = ($config->get($name)) ? $config->get($name) : $config->get('default');
-    $this->setName($name);
-  }
-
   private function setName($name) {
     $this->name = isset($this->config['prefix']) ? $this->config['prefix'] . '_' . $name : $name;
     $this->name = preg_replace("/[^\w]/", "_", $this->name);
   }
 
   private function connect() {
-    $this->connection = new Rackspace($this->config['auth_url'], $this->config['credentials']);
     $this->service = $this->connection->queuesService('cloudQueues', $this->config['region']);
 
     if (isset($this->config['client_id'])) {

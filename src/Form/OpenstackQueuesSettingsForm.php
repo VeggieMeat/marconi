@@ -28,7 +28,7 @@ class OpenstackQueuesSettingsForm extends ConfigFormBase {
     return 'openstack_queues_settings_form';
   }
 
-  public function buildForm(array $form, FormStateInterface $form_state, $queue) {
+  public function buildForm(array $form, FormStateInterface $form_state, $queue = NULL) {
     $settings = $this->config('openstack_queues.settings.' . $queue);
     $form['queue'] = $queue;
 
