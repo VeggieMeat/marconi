@@ -27,7 +27,7 @@ install:
   - composer install
 
 script:
-  - ./vendor/bin/phpunit -c core/phpunit.xml.dist --groups openstack_queues --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover.xml --verbose --debug
+  - ./vendor/bin/phpunit -c core/phpunit.xml.dist --group openstack_queues --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover.xml --verbose --debug
 
 after_script:
   - php ./vendor/bin/coveralls -v
