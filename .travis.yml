@@ -20,8 +20,7 @@ before_install:
   - tar -zxf drupal-${DRUPAL_VERSION}.tar.gz
   - mv drupal-${DRUPAL_VERSION} ../build
   - cd ../build
-  - wget https://raw.githubusercontent.com/VeggieMeat/openstack_queues/8.x-1.x/tests/travis.composer.json
-  - mv travis.composer.json composer.json
+  - mv cp ../tests/travis.composer.json composer.json
 
 install:
   - composer update -n --prefer-source
