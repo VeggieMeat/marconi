@@ -125,7 +125,7 @@ class OpenstackQueue implements QueueInterface {
       foreach($messages as $message) {
         $item->item_id = $message->getId();
         if (!empty($item->item_id)) {
-          $item->data = json_decode($message->getBody(), TRUE);
+          $item->data = $message->getBody();
           return $item;
         }
       }
@@ -158,8 +158,11 @@ class OpenstackQueue implements QueueInterface {
   public function releaseItem($item) {
     $claimed_item = $this->queue->getClaim($item->item_id);
     if ($claimed_item) {
-      $claimed_item->delete();
+      $response = $claimed_item->delete();
+      return $response->isSuccessful();
     }
+
+    return FALSE;
   }
 
   /**

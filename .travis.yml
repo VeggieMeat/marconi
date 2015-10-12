@@ -1,0 +1,30 @@
+language: php
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+
+notifications:
+  email:
+    - brian.altenhofel@vmdoh.com
+  irc:
+    - "irc.freenode.org#vmdoh"
+
+env:
+  - DRUPAL_VERSION=8.0.0-rc1
+
+before_install:
+  - wget http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz
+  - tar -zxvf drupal-${DRUPAL_VERSION}.tar.gz
+  - cd drupal-${DRUPAL_VERSION}
+  - wget https://raw.githubusercontent.com/VeggieMeat/openstack_queues/8.x-1.x/tests/travis.composer.json
+  - mv travis.composer.json composer.json
+
+install:
+  - composer install
+
+script:
+  - ./vendor/bin/phpunit -c core/phpunit.xml.dist --groups openstack_queues --coverage-clover $TRAVIS_BUILD_DIR/build/logs/clover.xml --verbose --debug
+
+after_script:
+  - php ./vendor/bin/coveralls -v
