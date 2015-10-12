@@ -20,6 +20,8 @@ before_install:
   - tar -zxf drupal-${DRUPAL_VERSION}.tar.gz
   - mv drupal-${DRUPAL_VERSION} ../build
   - cd ../build
+  -  ls
+  -  ls ../
   - cp ../tests/travis.composer.json composer.json
 
 install:
