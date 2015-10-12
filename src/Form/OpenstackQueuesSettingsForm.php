@@ -8,6 +8,11 @@ use Drupal\Core\Form\FormStateInterface;
 class OpenstackQueuesSettingsForm extends ConfigFormBase {
 
   /**
+   * @var array $editableConfig
+   */
+  protected $editableConfig = [];
+
+  /**
    * Gets the configuration names that will be editable.
    *
    * @return array
@@ -15,7 +20,7 @@ class OpenstackQueuesSettingsForm extends ConfigFormBase {
    *   conjunction with the trait's config() method.
    */
   protected function getEditableConfigNames() {
-    return ['openstack_queues.settings'];
+    return $this->editableConfig;
   }
 
   /**
@@ -29,8 +34,10 @@ class OpenstackQueuesSettingsForm extends ConfigFormBase {
   }
 
   public function buildForm(array $form, FormStateInterface $form_state, $queue = NULL) {
-    $settings = $this->config('openstack_queues.settings.' . $queue);
-    $form['queue'] = $queue;
+    $config_key = ($queue) ? $queue : 'default';
+    $this->editableConfig = ['openstack_queues.settings.' . $config_key];
+    $settings = $this->config('openstack_queues.settings.' . $config_key);
+    $form_state->setValue('config_key', $config_key);
 
     $form['client_id'] = [
       '#type' => 'textfield',
@@ -91,13 +98,16 @@ class OpenstackQueuesSettingsForm extends ConfigFormBase {
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('openstack_queues.settings.' . $form['queue'])
+    $config_key = $form_state->getValue('config_key', 'default');
+    $this->editableConfig = ['openstack_queues.settings.' . $config_key];
+    $this->config('openstack_queues.settings.' . $config_key)
       ->set('client_id', $form_state->getValue('client_id'))
       ->set('auth_url', $form_state->getValue('auth_url'))
       ->set('region', $form_state->getValue('region'))
       ->set('prefix', $form_state->getValue('prefix'))
       ->set('credentials.username', $form_state->getValue('username'))
-      ->set('credentials.apiKey', $form_state->getValue('apiKey'));
+      ->set('credentials.apiKey', $form_state->getValue('apiKey'))
+      ->save();
     parent::submitForm($form, $form_state);
   }
 }
