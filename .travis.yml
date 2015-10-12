@@ -15,6 +15,7 @@ env:
   - DRUPAL_VERSION=8.0.0-rc1
 
 before_install:
+  - composer self-update
   - wget http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz
   - tar -zxf drupal-${DRUPAL_VERSION}.tar.gz
   - mv drupal-${DRUPAL_VERSION} build
