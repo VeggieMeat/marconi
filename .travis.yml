@@ -24,7 +24,7 @@ before_install:
   - mv travis.composer.json composer.json
 
 install:
-  - composer update
+  - composer update -n --prefer-source
 
 script:
   - ./vendor/bin/phpunit -c core/phpunit.xml.dist --group openstack_queues --coverage-clover ./logs/clover.xml --verbose --debug
