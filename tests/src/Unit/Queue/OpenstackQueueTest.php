@@ -20,26 +20,14 @@ class OpenstackQueueTest extends OpenstackQueueTestBase {
     parent::setUp();
 
     $config_factory = $this->getConfigFactoryStub([
-      'openstack_queues.settings' => [
-        'default' => [
-          'client_id' => '9bcc7ac3-3754-467e-96f1-b51c9168ed3c',
-          'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
-          'region' => 'DFW',
-          'prefix' => '',
-          'credentials' => [
-            'username' => 'bender',
-            'apiKey' => 'rodriguez',
-          ],
-        ],
-        'foo' => [
-          'client_id' => '3911f4f8-bc26-483c-909f-7848a100a58e',
-          'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
-          'region' => 'IAD',
-          'prefix' => 'bar',
-          'credentials' => [
-            'username' => 'turanga',
-            'apiKey' => 'leela',
-          ],
+      'openstack_queues.settings.default' => [
+        'client_id' => '9bcc7ac3-3754-467e-96f1-b51c9168ed3c',
+        'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
+        'region' => 'DFW',
+        'prefix' => '',
+        'credentials' => [
+          'username' => 'bender',
+          'apiKey' => 'rodriguez',
         ],
       ],
     ]);
@@ -47,9 +35,9 @@ class OpenstackQueueTest extends OpenstackQueueTestBase {
     $container->method('get')->with('config.factory')->will($this->returnValue($config_factory));
     \Drupal::setContainer($container);
 
-    $config = \Drupal::config('openstack_queues.settings')->get('default');
+    $config = \Drupal::config('openstack_queues.settings.default');
 
-    $this->client = new Rackspace($config['auth_url'], $config['credentials']);
+    $this->client = new Rackspace($config->get('auth_url'), $config->get('credentials'));
     $this->client->addSubscriber(new MockSubscriber());
     $this->queue = new OpenstackQueue('foo', $this->client, $config);
   }
@@ -62,12 +50,10 @@ class OpenstackQueueTest extends OpenstackQueueTestBase {
   public function testClaimItem() {
     $this->addMockSubscriber($this->makeResponse('[
    {
-      "body":{
-         "event":"BackupStarted"
-      },
+      "body":"{\"event\":\"BackupStarted\"}",
       "age":239,
       "href":"/v1/queues/demoqueue/messages/51db6f78c508f17ddc924357?claim_id=51db7067821e727dc24df754",
-      "ttl":300
+      "ttl":43200
    }
 ]', 201));
     $this->assertNotFalse($this->queue->claimItem());
