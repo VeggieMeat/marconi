@@ -32,4 +32,4 @@ script:
 after_script:
   - cd ../openstack_queues
   - wget https://scrutinizer-ci.com/ocular.phar
-  - if [[ "$TRAVIS_PHP_VERSION" != "7" ]]; php ocular.phar code-coverage:upload --format=php-clover ../coverage.clover; fi
+  - if [[ "$TRAVIS_PHP_VERSION" != "7" ]]; then php ocular.phar code-coverage:upload --format=php-clover ../coverage.clover; fi
