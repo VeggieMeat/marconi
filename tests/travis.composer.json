@@ -9,9 +9,6 @@
     "phpunit/phpunit": "~4.8",
     "satooshi/php-coveralls": "dev-master"
   },
-  "replace": {
-    "drupal/core": "~8.0"
-  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
