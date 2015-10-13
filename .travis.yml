@@ -3,7 +3,7 @@ language: php
 php:
   - 5.5
   - 5.6
-  - 7.0
+  - 7
 
 notifications:
   email:
@@ -15,6 +15,7 @@ env:
   - DRUPAL_VERSION=8.0.0-rc1
 
 before_install:
+  - if [[ "$TRAVIS_PHP_VERSION" == "7.0" ]]; then pecl install xdebug; fi
   - composer self-update
   - wget http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz
   - tar -zxf drupal-${DRUPAL_VERSION}.tar.gz
