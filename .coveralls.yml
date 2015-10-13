@@ -1,2 +1,2 @@
-src_dir: ../build/modules/openstack_queues
+src_dir: .
 service_name: travis-ci
