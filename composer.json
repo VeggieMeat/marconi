@@ -14,7 +14,6 @@
     "rackspace/php-opencloud": ">=1.15.0"
   },
   "require-dev": {
-    "drush/drush": "8.*",
     "phpunit/phpunit": "~4.8",
     "satooshi/php-coveralls": "dev-master"
   }
