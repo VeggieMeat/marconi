@@ -1,6 +1,6 @@
 {
   "require-dev": {
-    "drush/drush": "7.*",
+    "drush/drush": "8.*",
     "phpunit/phpunit": "~4.8",
     "satooshi/php-coveralls": "dev-master"
   },
