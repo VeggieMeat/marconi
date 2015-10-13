@@ -99,7 +99,7 @@ class OpenstackQueue implements QueueInterface {
    *   the claim itself, plus a specified grace period to deal with crashed
    *   workers. Value must be between 60 and 43200 seconds. Default is 12 hours.
    *
-   * @return stdClass | FALSE
+   * @return stdClass | bool
    *   On success we return an item object. If the queue is unable to claim an
    *   item it returns false. This implies a best effort to retrieve an item
    *   and either the queue is empty or there is some other non-recoverable
