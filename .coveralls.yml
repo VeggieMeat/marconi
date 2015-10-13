@@ -1,2 +1,2 @@
-src_dir: .
+src_dir: /home/travis/build/VeggieMeat/build/modules/openstack_queues
 service_name: travis-ci
