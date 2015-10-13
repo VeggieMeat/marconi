@@ -27,8 +27,9 @@ install:
   - composer update -n --prefer-source --lock
 
 script:
-  - ./vendor/bin/phpunit -c core/phpunit.xml.dist --group openstack_queues --coverage-clover=./coverage.clover --verbose --debug
+  - ./vendor/bin/phpunit -c core/phpunit.xml.dist --group openstack_queues --coverage-clover=../coverage.clover --verbose --debug
 
 after_script:
+  - cd ../openstack_queues
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover ./coverage.clover
+  - php ocular.phar code-coverage:upload --format=php-clover ../coverage.clover
