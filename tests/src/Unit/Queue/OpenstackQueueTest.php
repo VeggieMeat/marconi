@@ -18,28 +18,6 @@ class OpenstackQueueTest extends OpenstackQueueTestBase {
 
   protected function setUp() {
     parent::setUp();
-
-    $config_factory = $this->getConfigFactoryStub([
-      'openstack_queues.settings.default' => [
-        'client_id' => '9bcc7ac3-3754-467e-96f1-b51c9168ed3c',
-        'auth_url' => 'https://identity.api.rackspacecloud.com/v2.0/',
-        'region' => 'DFW',
-        'prefix' => '',
-        'credentials' => [
-          'username' => 'bender',
-          'apiKey' => 'rodriguez',
-        ],
-      ],
-    ]);
-    $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-    $container->method('get')->with('config.factory')->will($this->returnValue($config_factory));
-    \Drupal::setContainer($container);
-
-    $config = \Drupal::config('openstack_queues.settings.default');
-
-    $this->client = new Rackspace($config->get('auth_url'), $config->get('credentials'));
-    $this->client->addSubscriber(new MockSubscriber());
-    $this->queue = new OpenstackQueue('foo', $this->client, $config);
   }
 
   public function testCreateItem() {
