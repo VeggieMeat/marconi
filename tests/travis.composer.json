@@ -1,8 +1,4 @@
 {
-  "require": {
-    "composer/installers": "^1.0.20",
-    "drupal/openstack_queues": "dev-8.x-1.x"
-  },
   "require-dev": {
     "drush/drush": "7.*",
     "phpunit/phpunit": "~4.8",
@@ -21,7 +17,8 @@
     ],
     "merge-plugin": {
       "include": [
-        "core/composer.json"
+        "core/composer.json",
+        "modules/openstack_queues/composer.json"
       ],
       "recurse": false,
       "replace": false,

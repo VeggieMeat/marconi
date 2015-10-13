@@ -23,10 +23,10 @@ before_install:
   - cp ../openstack_queues/tests/travis.composer.json composer.json
 
 install:
+  - cp -R ../openstack_queues ./modules/openstack_queues
   - composer update -n --prefer-source --lock
 
 script:
-  - ./vendor/bin/phpunit -c core/phpunit.xml.dist --list-groups
   - ./vendor/bin/phpunit -c core/phpunit.xml.dist --group openstack_queues --coverage-clover ./logs/clover.xml --verbose --debug
 
 after_script:
