@@ -1,8 +1,7 @@
 {
   "require": {
     "composer/installers": "^1.0.20",
-    "drupal/openstack_queues": "dev-8.x-1.x",
-    "wikimedia/composer-merge-plugin": "^1.3.0"
+    "drupal/openstack_queues": "dev-8.x-1.x"
   },
   "require-dev": {
     "drush/drush": "7.*",
