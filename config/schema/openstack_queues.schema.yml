@@ -1,5 +1,6 @@
 openstack_queues.settings.*:
-  type: mapping
+  type: config_object
+  label: Openstack Queue configuration
   mapping:
     client_id:
       type: string

@@ -4,6 +4,7 @@ namespace Drupal\openstack_queues\Queue;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use OpenCloud\Rackspace;
+use Drupal\Core\Config\ImmutableConfig;
 
 class OpenstackQueueFactory {
 
@@ -16,7 +17,7 @@ class OpenstackQueueFactory {
    */
   private $configFactory;
   /**
-   * @var array $config
+   * @var ImmutableConfig $config
    */
   private $config;
 
@@ -31,9 +32,9 @@ class OpenstackQueueFactory {
    * @return OpenstackQueue
    */
   public function get($name) {
-    $config = $this->configFactory->get('openstack_queues.settings');
-    $this->config = ($config->get($name)) ? $config->get($name) : $config->get('default');
-    $this->connection = new Rackspace($this->config['auth_url'], $this->config['credentials']);
+    $config = $this->configFactory->get('openstack_queues.settings.' . $name);
+    $this->config = ($config->get('client_id') !== NULL) ? $config : $this->configFactory->get('openstack_queues.settings.default');
+    $this->connection = new Rackspace($this->config->get('auth_url'), $this->config->get('credentials'));
     return new OpenstackQueue($name, $this->connection, $this->config);
   }
 

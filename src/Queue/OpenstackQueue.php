@@ -3,6 +3,7 @@
 namespace Drupal\openstack_queues\Queue;
 
 use Drupal;
+use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Queue\QueueInterface;
 use OpenCloud\Rackspace;
 use OpenCloud\Queues\Service;
@@ -14,7 +15,7 @@ use stdClass;
 class OpenstackQueue implements QueueInterface {
 
   /**
-   * @var array $config
+   * @var ImmutableConfig $config
    */
   private $config;
   /**
@@ -34,7 +35,7 @@ class OpenstackQueue implements QueueInterface {
    */
   private $queue;
 
-  public function __construct($name, Rackspace $connection, array $config) {
+  public function __construct($name, Rackspace $connection, ImmutableConfig $config) {
     $this->config = $config;
     $this->connection = $connection;
     $this->setName($name);
@@ -54,7 +55,7 @@ class OpenstackQueue implements QueueInterface {
    *   the queue.
    */
   public function createItem($data) {
-    $ttl = isset($this->config['ttl']) ? $this->config['ttl'] : 3600;
+    $ttl = ($this->config->get('ttl')) ? $this->config->get('ttl') : 3600;
     return $this->queue->createMessage(array(
       'body' => json_encode($data),
       'ttl' => $ttl,
@@ -125,7 +126,7 @@ class OpenstackQueue implements QueueInterface {
       foreach($messages as $message) {
         $item->item_id = $message->getId();
         if (!empty($item->item_id)) {
-          $item->data = $message->getBody();
+          $item->data = json_decode($message->getBody(), TRUE);
           return $item;
         }
       }
@@ -190,15 +191,15 @@ class OpenstackQueue implements QueueInterface {
   }
 
   private function setName($name) {
-    $this->name = isset($this->config['prefix']) ? $this->config['prefix'] . '_' . $name : $name;
+    $this->name = ($this->config->get('prefix')) ? $this->config->get('prefix') . '_' . $name : $name;
     $this->name = preg_replace("/[^\w]/", "_", $this->name);
   }
 
   private function connect() {
-    $this->service = $this->connection->queuesService('cloudQueues', $this->config['region']);
+    $this->service = $this->connection->queuesService('cloudQueues', $this->config->get('region'));
 
-    if (isset($this->config['client_id'])) {
-      $this->service->setClientId($this->config['client_id']);
+    if ($this->config->get('client_id')) {
+      $this->service->setClientId($this->config->get('client_id'));
     }
 
     if (!$this->service->hasQueue($this->name)) {
